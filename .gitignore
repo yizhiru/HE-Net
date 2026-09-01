@@ -1,0 +1,48 @@
+# Datasets (CIFAR-10 downloads)
+data/
+
+# CMake / C++ build
+build/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+compile_commands.json
+CTestTestfile.cmake
+Makefile
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+henet-plain
+henet-seal
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Training artifacts (PyTorch dumps and exported C++ weight files)
+python/checkpoints/
+*.pt
+*.pth
+*.pkl
+
+# IDE / editor
+.idea/
+.vscode/
+*.iml
+*.swp
+*~
+.clangd/
+.cache/
+
+# OS
+.DS_Store
+Thumbs.db
