@@ -25,10 +25,10 @@ HE-Net/
 │   ├── evaluator.cpp          # 密态卷积 / 激活 / 池化
 │   ├── helper.cpp             # 权重加载、BN+激活融合
 │   ├── henet_seal.cpp         # CKKS 密态推理（CNN-128）
-│   ├── henet_plain.cpp        # CryptoNets 明文推理入口
 │   ├── cryptonets.cpp         # CryptoNets 算子
 │   └── thread_pool.cpp
-├── tests/                     # 单元测试与固定样例
+├── tests/                     # 单元测试、固定样例、明文推理样例
+│   └── henet_plain.cpp        # CryptoNets 明文端到端样例
 ├── python/                    # PyTorch 训练与权重导出
 └── data/                      # 数据集（不入库）
 ```
@@ -103,9 +103,9 @@ macOS 上若出现 `'cstdlib' file not found` 或 `'thread' file not found`，�
 
 未指定路径时，CMake 会把工程内的默认 `data/` 与 `python/checkpoints/` 编译进二进制。
 
-## 明文基线 `henet-plain`（另一套模型）
+## 明文基线样例 `henet-plain`（另一套模型）
 
-`src/henet_plain.cpp` **不是** CNN-128 的明文对照，而是早期 CryptoNets 风格的独立小网络，不使用 SEAL。
+`tests/henet_plain.cpp` 是 CryptoNets 明文端到端样例，**不是** CNN-128 的明文对照，也不加入 `ctest`（需要真实数据集和权重）。
 
 - 输入：CIFAR-10 RGB 三通道取平均，变成 1×32×32 灰度
 - 结构：`Conv(1→8, 3×3) → x² → AvgPool(4) → Flatten(512) → Dense(128) → x² → Dense(10) → x²`
@@ -114,17 +114,11 @@ macOS 上若出现 `'cstdlib' file not found` 或 `'thread' file not found`，�
 不能加载 `python/train.py` 导出的 `conv1` / `bn` / `act` / `linear` 权重。
 
 ```bash
-./build/henet-plain \
+cmake --build build -j --target henet-plain
+./build/tests/henet-plain \
   --data data/cifar-10/cifar-10-batches-bin \
   --model <cryptonets-weight-dir> \
   --samples 0
-```
-
-`--samples 0` 表示跑完整测试集。只编该明文程序、不拉 SEAL：
-
-```bash
-cmake -S . -B build -DHENET_BUILD_SEAL=OFF
-cmake --build build -j --target henet-plain
 ```
 
 ## 测试

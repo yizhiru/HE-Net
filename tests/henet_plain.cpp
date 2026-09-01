@@ -1,6 +1,7 @@
 /**
  * @file henet_plain.cpp
- * CryptoNets 明文推理入口。与 henet-seal 使用的 CNN-128 不是同一套网络。
+ * CryptoNets 明文推理样例（集成测试）。与 henet-seal 使用的 CNN-128 不是同一套网络。
+ * 需要 CIFAR-10 二进制数据和 conv/fc txt 权重，不加入 ctest。
  */
 
 #include "henet/cli.h"

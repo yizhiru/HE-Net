@@ -35,7 +35,6 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING "Build type" FORCE)
 endif()
 
-option(HENET_BUILD_PLAIN "Build CryptoNets-style plaintext baseline" ON)
 option(HENET_BUILD_SEAL "Build CKKS encrypted inference (requires Microsoft SEAL)" ON)
 option(HENET_BUILD_TESTS "Build unit tests" ON)
 
@@ -56,11 +55,6 @@ target_compile_definitions(henet_common
         HENET_DEFAULT_DATA_DIR="${HENET_DEFAULT_DATA_DIR}"
         HENET_DEFAULT_MODEL_DIR="${HENET_DEFAULT_MODEL_DIR}"
 )
-
-if(HENET_BUILD_PLAIN)
-    add_executable(henet-plain src/henet_plain.cpp)
-    target_link_libraries(henet-plain PRIVATE henet_common)
-endif()
 
 if(HENET_BUILD_SEAL)
     if(CMAKE_HOST_APPLE)
